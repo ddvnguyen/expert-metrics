@@ -2,7 +2,7 @@
  "schema_version": 1,
  "engine_id": "229b4e3d5349e2e3",
  "model_hash": "Qwopus3.6-35B-A3B-v1-APEX-MTP-I-Nano.gguf",
- "llama_cpp_commit": "2aa3ada4a",
+ "llama_cpp_commit": "552a26911",
  "geometry": {
   "dense_prefix": 0,
   "moe_rows": [
@@ -52,13 +52,20 @@
   "n_expert_used": 8
  },
  "env_gates": {
-  "HYDRA_EXPERT_META": false
+  "HYDRA_EXPERT_META": true
  },
  "runs": [
   {
    "run_id": "20260918T120000Z-p100-sm60",
    "recorded_at": "2026-09-19T06:09:45Z",
    "telemetry_present": false,
+   "n_probes": 30,
+   "artifacts": []
+  },
+  {
+   "run_id": "20260919T172000Z-nano-local",
+   "recorded_at": "2026-09-19T17:19:42Z",
+   "telemetry_present": true,
    "n_probes": 30,
    "artifacts": []
   }

@@ -24,7 +24,12 @@
           },
           "spec": { "type": "number", "minimum": 0, "maximum": 1 },
           "label": { "type": "string" },
-          "reliability": { "type": "integer", "minimum": 0, "maximum": 100 },
+          "reliability": {
+            "oneOf": [
+              { "type": "string", "pattern": "^[0-9]+/[0-9]+$", "description": "Colibri verbatim form 'probes-with-top/total'" },
+              { "type": "integer", "minimum": 0, "maximum": 100 }
+            ]
+          },
           "weak": { "type": "boolean", "description": "spec < 0.7 (Colibri LLM pop review #175)" },
           "reap": {
             "description": "REAP (Cerebras) family. null = observer not wired for this artifact.",
