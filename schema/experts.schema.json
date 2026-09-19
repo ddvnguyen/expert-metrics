@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ddvnguyen/expert-metrics/schema/experts.schema.json",
+  "title": "Derived expert-atlas artifact (observability tier)",
+  "description": "Per-expert metrics across all three families. Colibri fields are required; reap/edge0 fields are null until their observers are wired (never fabricated).",
+  "type": "object",
+  "required": ["schema_version", "categories", "experts", "provenance"],
+  "properties": {
+    "schema_version": { "const": 2 },
+    "categories": { "type": "array", "items": { "type": "string" }, "minItems": 2 },
+    "categories_missing": { "type": "array", "items": { "type": "string" } },
+    "experts": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[0-9]+:[0-9]+$" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["entropy", "top", "affinity", "spec", "label", "reliability", "reap", "edge0"],
+        "properties": {
+          "entropy": { "type": "number", "minimum": 0 },
+          "top": { "type": "string" },
+          "affinity": {
+            "type": "object",
+            "additionalProperties": { "type": "number", "minimum": 0, "maximum": 1 }
+          },
+          "spec": { "type": "number", "minimum": 0, "maximum": 1 },
+          "label": { "type": "string" },
+          "reliability": { "type": "integer", "minimum": 0, "maximum": 100 },
+          "weak": { "type": "boolean", "description": "spec < 0.7 (Colibri LLM pop review #175)" },
+          "reap": {
+            "description": "REAP (Cerebras) family. null = observer not wired for this artifact.",
+            "type": ["object", "null"],
+            "properties": {
+              "saliency": { "type": "number", "minimum": 0, "description": "router gate value x expert activation norm, renormalized router weights" },
+              "layer_utilization": { "type": "number", "minimum": 0, "maximum": 1 },
+              "routing_collapse_rank": { "type": "integer", "minimum": 0 }
+            }
+          },
+          "edge0": {
+            "description": "Edge0 prerouter predictability family. null = observer not wired for this artifact.",
+            "type": ["object", "null"],
+            "properties": {
+              "predictability": { "type": "number", "minimum": 0, "maximum": 1, "description": "prerouter top-1 hit-rate over the probe corpus" },
+              "prefetch_gain": { "type": "number", "description": "miss-cost reduction vs no-prefetch baseline" }
+            }
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["engine_id", "model_hash", "llama_cpp_commit", "recorded_at"],
+      "properties": {
+        "engine_id": { "type": "string" },
+        "model_hash": { "type": "string" },
+        "llama_cpp_commit": { "type": "string" },
+        "recorded_at": { "type": "string", "format": "date-time" },
+        "categories_missing": { "type": "array", "items": { "type": "string" } },
+        "telemetry_present": { "type": "boolean" },
+        "gates": {
+          "type": "object",
+          "properties": {
+            "replication": { "type": "boolean", "description": ">= 2 probes per data-present category" },
+            "category_floor": { "type": "boolean", "description": ">= 2 categories with data" },
+            "lop_validated": { "type": "boolean" },
+            "null_tested": { "type": "boolean", "description": "gate sanity-checked on random-routing controls" }
+          }
+        }
+      }
+    }
+  }
+}

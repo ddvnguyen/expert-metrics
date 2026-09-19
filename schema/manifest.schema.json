@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ddvnguyen/expert-metrics/schema/manifest.schema.json",
+  "title": "Per-model manifest",
+  "type": "object",
+  "required": ["schema_version", "engine_id", "model_hash", "geometry", "runs"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "engine_id": { "type": "string" },
+    "model_hash": { "type": "string" },
+    "llama_cpp_commit": { "type": "string" },
+    "geometry": {
+      "type": "object",
+      "required": ["dense_prefix", "moe_rows", "nextn_rows", "n_expert_used"],
+      "properties": {
+        "dense_prefix": { "type": "integer", "minimum": 0 },
+        "moe_rows": { "type": "array", "items": { "type": "integer" } },
+        "nextn_rows": { "type": "array", "items": { "type": "integer" } },
+        "n_expert_used": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "env_gates": {
+      "type": "object",
+      "properties": {
+        "HYDRA_EXPERT_META": { "type": "boolean" },
+        "HYDRA_EXPERT_STATS": { "type": "boolean" }
+      }
+    },
+    "runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["run_id", "recorded_at", "telemetry_present", "n_probes"],
+        "properties": {
+          "run_id": { "type": "string" },
+          "recorded_at": { "type": "string", "format": "date-time" },
+          "telemetry_present": { "type": "boolean" },
+          "n_probes": { "type": "integer", "minimum": 0 },
+          "artifacts": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}

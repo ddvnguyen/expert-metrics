@@ -1,0 +1,23 @@
+{
+ "schema_version": 1,
+ "run_id": "20260918T120000Z-p100-sm60",
+ "category": "code_python",
+ "idx": 1,
+ "telemetry": false,
+ "selections": {},
+ "confounds": {
+  "temperature": 0,
+  "top_p": 1.0,
+  "top_k": 0,
+  "min_p": 0.0,
+  "decode_only": true,
+  "mtp_off": true
+ },
+ "provenance": {
+  "engine_id": "229b4e3d5349e2e3",
+  "model_hash": "Qwopus3.6-35B-A3B-v1-APEX-MTP-I-Nano.gguf",
+  "llama_cpp_commit": "2aa3ada4a",
+  "atlas_stage": "C1",
+  "recorded_at": "2026-09-19T06:09:45Z"
+ }
+}
